@@ -8,6 +8,26 @@ A Model Context Protocol (MCP) server that provides browser automation capabilit
 - **LLM-friendly**. No vision models needed, operates purely on structured data.
 - **Deterministic tool application**. Avoids ambiguity common with screenshot-based approaches.
 
+### 🚀 BSR Session Persistence Enhancement
+
+This repository includes **BSR-specific enhancements** that add persistent browser sessions to the Playwright MCP server. This enables:
+
+- **Persistent Login States**: Maintain authentication across multiple operations
+- **Multi-Platform Management**: Independent sessions for different job platforms  
+- **Session Management Tools**: Create, monitor, and cleanup browser sessions
+- **Minimal Upstream Impact**: Only 7 lines changed in existing files
+
+**📖 Documentation:**
+- [`BSR_SESSION_PERSISTENCE.md`](./BSR_SESSION_PERSISTENCE.md) - Complete implementation details
+- [`BSR_SESSION_QUICK_REFERENCE.md`](./BSR_SESSION_QUICK_REFERENCE.md) - Quick reference guide
+
+**🔧 New Session Management Tools:**
+- `browser_session_info` - View session status and statistics
+- `browser_session_list` - List all active sessions  
+- `browser_session_create` - Create named browser sessions
+- `browser_session_close` - Close specific sessions
+- `browser_session_cleanup` - Clean up old unused sessions
+
 ### Requirements
 - Node.js 18 or newer
 - VS Code, Cursor, Windsurf, Claude Desktop, Goose or any other MCP client
