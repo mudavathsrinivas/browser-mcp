@@ -17,6 +17,7 @@
 import { BrowserServerBackend } from './browserServerBackend.js';
 import { resolveConfig } from './config.js';
 import { contextFactory } from './browserContextFactory.js';
+import { SessionBrowserContextFactory } from './sessionBrowserContextFactory.js';
 import * as mcpServer from './mcp/server.js';
 
 import type { Config } from '../config.js';
@@ -26,7 +27,9 @@ import type { Server } from '@modelcontextprotocol/sdk/server/index.js';
 
 export async function createConnection(userConfig: Config = {}, contextGetter?: () => Promise<BrowserContext>): Promise<Server> {
   const config = await resolveConfig(userConfig);
-  const factory = contextGetter ? new SimpleBrowserContextFactory(contextGetter) : contextFactory(config.browser);
+  const baseFactory = contextGetter ? new SimpleBrowserContextFactory(contextGetter) : contextFactory(config.browser);
+  // MINIMAL CHANGE: Wrap with session persistence
+  const factory = new SessionBrowserContextFactory(baseFactory);
   return mcpServer.createServer(new BrowserServerBackend(config, factory), false);
 }
 

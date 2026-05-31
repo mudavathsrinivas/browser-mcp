@@ -19,6 +19,7 @@ import { Context } from './context.js';
 import { logUnhandledError } from './log.js';
 import { Response } from './response.js';
 import { SessionLog } from './sessionLog.js';
+import { SessionBrowserContextFactory } from './sessionBrowserContextFactory.js';
 import { filteredTools } from './tools.js';
 import { packageJSON } from './package.js';
 
@@ -76,6 +77,10 @@ export class BrowserServerBackend implements ServerBackend {
 
   serverClosed() {
     this.onclose?.();
+    // MINIMAL CHANGE: Close persistent sessions on server shutdown
+    if (this._browserContextFactory instanceof SessionBrowserContextFactory) {
+      void this._browserContextFactory.closeAllSessions().catch(logUnhandledError);
+    }
     void this._context!.dispose().catch(logUnhandledError);
   }
 }
